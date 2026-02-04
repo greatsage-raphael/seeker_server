@@ -7,7 +7,7 @@ async function bootstrap() {
   
   // FIX: Enable CORS so your frontend (3000) can talk to your backend (3001)
   app.enableCors({
-    origin: 'https://seeker-prime.vercel.app/',
+    origin: 'https://seeker-prime.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
