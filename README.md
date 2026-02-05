@@ -55,18 +55,11 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 *   **Director Agent (Gemini 3 Pro):** Reads the lesson notes and outputs a JSON manifest containing panel descriptions, dialogue, and a specific "Visual Anchor" (e.g., "Vintage Ink Style, 1920s setting").
 *   **Artist Agent (Gemini 3 Image):** Iterates through the manifest, generating images that strictly adhere to the Director's visual anchors.
 
-```mermaid
-graph LR
-    Input[Lesson Notes] --> Director[Director Agent]
-    Director -->|JSON Manifest| Iterator
-    
-    subgraph Production [Page Generation]
-        Iterator -->|Panel Prompt| Artist[Gemini 3 Image]
-        Artist -->|Image| Optimizer
-    end
-    
-    Optimizer --> Upload[Supabase Storage]
-```
+![Comic Book Factory Flow](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_59_22-PM.png)
+
+![Comic Book Factory](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_56_00-PM.png)
+
+
 
 ### 3. The Slide Generator
 **Goal:** Create a traditional video lecture (`.mp4`) from text notes automatically.
