@@ -1,98 +1,184 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Seeker Server | The Cortex
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![Backend Banner](https://via.placeholder.com/1200x400/0f172a/38bdf8?text=SEEKER+SERVER+|+Agentic+Media+Generation)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+> **The Generative Engine behind [Seeker](https://github.com/greatsage-raphael/seeker_prime)**
+>
+> *Handles long-running agentic workflows, video rendering, and multimedia synthesis.*
 
-## Description
+## Table of Contents
+- [Overview](#overview)
+- [System Architecture](#system-architecture)
+- [Generative Pipelines](#generative-pipelines)
+    - [The Veo Cinematic Engine](#1-the-veo-cinematic-engine)
+    - [The Comic Book Factory](#2-the-comic-book-factory)
+    - [The Slide Generator](#3-the-slide-generator)
+    - [The Podcast Synth](#4-the-podcast-synth)
+- [Gemini 3 Integration](#gemini-3-integration)
+- [Directory Structure](#directory-structure)
+- [Setup & Installation](#setup--installation)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Overview
 
-```bash
-$ npm install
+While the frontend handles real-time interaction, **Seeker Server** acts as the "Cortex"—a NestJS-based agentic orchestration layer. It is responsible for tasks that require heavy computational logic, complex prompting chains, or binary processing (FFmpeg) that cannot execute in a browser environment.
+
+It listens for triggers from the frontend (e.g., "Lesson Completed") and spins up asynchronous jobs to generate high-fidelity media assets using the **Gemini 3 Model Family** and **Google Veo**.
+
+## System Architecture
+
+The server operates as a bridge between the User's state (Supabase) and Google's Generative Cloud.
+
+![System Architecture](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_34_55-PM.png)
+
+---
+
+## Generative Pipelines
+
+### 1. The Veo Cinematic Engine
+**Goal:** Generate 8-second looping video explainers with consistent characters.
+**Innovation:** Solves the "flickering character" problem in AI video by generating a "Character DNA" grid first.
+
+*   **Identity Agent:** Analyzes the lesson to define a visual style and protagonist.
+*   **DNA Generator:** Creates a 2x2 Character Reference Grid (Front, Side, Back views).
+*   **Veo Production:** Passes the Reference Grid to **Veo 3.1** for every scene generation to ensure the character looks the same in Scene 1 and Scene 4.
+
+![Veo Cinematic flow](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_48_12-PM.png)
+
+![Veo Cinematic Engine](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_39_40-PM.png)
+
+### 2. The Comic Book Factory
+**Goal:** Convert abstract concepts into a 5-page graphic novel.
+**Innovation:** Separates the "Director" (Text/Layout) from the "Artist" (Image Generation).
+
+*   **Director Agent (Gemini 3 Pro):** Reads the lesson notes and outputs a JSON manifest containing panel descriptions, dialogue, and a specific "Visual Anchor" (e.g., "Vintage Ink Style, 1920s setting").
+*   **Artist Agent (Gemini 3 Image):** Iterates through the manifest, generating images that strictly adhere to the Director's visual anchors.
+
+```mermaid
+graph LR
+    Input[Lesson Notes] --> Director[Director Agent]
+    Director -->|JSON Manifest| Iterator
+    
+    subgraph Production [Page Generation]
+        Iterator -->|Panel Prompt| Artist[Gemini 3 Image]
+        Artist -->|Image| Optimizer
+    end
+    
+    Optimizer --> Upload[Supabase Storage]
 ```
 
-## Compile and run the project
+### 3. The Slide Generator
+**Goal:** Create a traditional video lecture (`.mp4`) from text notes automatically.
+**Innovation:** Programmatic video editing. We use Gemini to generate the *assets*, but use FFmpeg to handling the *timing* and *text rendering* for perfect synchronization.
 
-```bash
-# development
-$ npm run start
+*   **Manifest Agent:** breaks the lesson into 30-second blocks.
+*   **Asset Generation:** Parallel generation of TTS Audio (Gemini 2.5) and Background Images (Gemini 3 Image).
+*   **FFmpeg Rendering:** Uses complex filter graphs (`drawtext`, `overlay`) to burn text onto the video at specific timestamps.
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```mermaid
+graph LR
+    API[API Trigger] --> Service[Slide Service]
+    Service <-->|JSON Structure| G_Logic[Gemini 3 Pro]
+    
+    Service -->|Backgrounds| G_Vis[Gemini 3 Image]
+    Service -->|Narration| G_Audio[Gemini 2.5 TTS]
+    
+    G_Vis & G_Audio -->|Raw Assets| FFmpeg
+    
+    FFmpeg -->|Draw Text & Mux| FFmpeg
+    FFmpeg -->|Stitch| Bucket[Video Bucket]
 ```
 
-## Run tests
+### 4. The Podcast Synth
+**Goal:** Convert a lesson into an engaging 2-person dialogue.
+**Innovation:** Multi-speaker synthesis.
 
-```bash
-# unit tests
-$ npm run test
+*   **Scriptwriter:** Converts notes into a transcript between "Alex" (curious) and "Sam" (expert).
+*   **Audio Synth:** Uses **Gemini 2.5 Flash TTS** with `multiSpeakerVoiceConfig` to generate a single audio file with distinct voices.
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```mermaid
+graph LR
+    Request --> Writer[Gemini 2.0 Flash]
+    Writer -->|Dialogue Script| Synth[Audio Engine]
+    Synth <-->|Multi-Speaker Config| Speaker[Gemini 2.5 TTS]
+    Synth -->|PCM Data| Encoder[FFmpeg Encoder]
+    Encoder -->|MP3 File| DB[Database]
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Gemini 3 Integration
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+This server relies entirely on the latest Google models:
+
+| Task | Model | Reason |
+| :--- | :--- | :--- |
+| **Video Generation** | **Google Veo 3.1** | The only model capable of using "Reference Images" (Character DNA) for consistency. |
+| **Logic/Scripting** | **Gemini 3 Pro** | Required for complex JSON instruction following (Director Agent). |
+| **Image Generation** | **Gemini 3 Image** | High-fidelity text rendering for comic book panels. |
+| **Audio** | **Gemini 2.5 Flash TTS** | Low latency, high emotion, and multi-speaker capabilities. |
+
+---
+
+## Directory Structure
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+/src
+  /slides
+    slides.service.ts    # Logic for Comics and Slides (FFmpeg)
+    slides.controller.ts # Endpoints: /generate, /generate-comic
+  /video
+    video.service.ts     # Logic for Veo Cinematic (Character Grid)
+    video.controller.ts  # Endpoints: /generate-cinematic
+  /app.module.ts         # Config & Dependency Injection
+/temp                    # Temporary scratchpad for raw asset generation
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Setup & Installation
 
-Check out a few resources that may come in handy when working with NestJS:
+### Prerequisites
+1.  **Node.js 20+**
+2.  **FFmpeg** must be installed on the host machine (Required for stitching and audio conversion).
+    *   Ubuntu: `sudo apt install ffmpeg`
+    *   Mac: `brew install ffmpeg`
+3.  **Supabase Project** (URL & Service Role Key).
+4.  **Google Cloud Project** with Vertex AI enabled.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Installation
 
-## Support
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/greatsage-raphael/seeker_server.git
+    cd seeker_server
+    ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-## Stay in touch
+3.  **Environment Variables**
+    Create a `.env` file in the root:
+    ```env
+    # Google AI
+    GEMINI_API_KEY=AIza...
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    # Database & Storage
+    SUPABASE_URL=https://your-project.supabase.co
+    SUPABASE_SERVICE_ROLE_KEY=eyJ... 
+    
+    # Server Port
+    PORT=3001
+    ```
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+4.  **Run the Server**
+    ```bash
+    # Development
+    npm run start:dev
+    
+    # Production
+    npm run start:prod
+    ```
