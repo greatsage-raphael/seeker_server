@@ -1,6 +1,6 @@
 # Seeker Server | The Cortex
 
-![Backend Banner](https://via.placeholder.com/1200x400/0f172a/38bdf8?text=SEEKER+SERVER+|+Agentic+Media+Generation)
+![Seeker Banner](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/Screenshot%20from%202026-02-05%2022-29-23.png)
 
 > **The Generative Engine behind [Seeker](https://github.com/greatsage-raphael/seeker_prime)**
 >
