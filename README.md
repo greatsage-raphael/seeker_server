@@ -48,6 +48,9 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 
 ![Veo Cinematic Engine](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_39_40-PM.png)
 
+## Example Veo Video
+[![Watch the demo](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/Screenshot%20from%202026-02-05%2020-53-36.png)](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/33d3435d-fe5e-450c-b71b-a3797944f5b8/cinematic_1769537211186.mp4)
+
 ### 2. The Comic Book Factory
 **Goal:** Convert abstract concepts into a 5-page graphic novel.
 **Innovation:** Separates the "Director" (Text/Layout) from the "Artist" (Image Generation).
@@ -59,7 +62,7 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 
 ![Comic Book Factory](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_56_00-PM.png)
 
-
+![Comics 2](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/Screenshot%20from%202026-02-05%2020-42-34.png)
 
 ### 3. The Slide Generator
 **Goal:** Create a traditional video lecture (`.mp4`) from text notes automatically.
