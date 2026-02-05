@@ -62,6 +62,7 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 
 ![Comic Book Factory](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-5-2026-11_56_00-PM.png)
 
+## Example of comic generated:
 ![Comics 2](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/Screenshot%20from%202026-02-05%2020-42-34.png)
 
 ### 3. The Slide Generator
@@ -72,19 +73,7 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 *   **Asset Generation:** Parallel generation of TTS Audio (Gemini 2.5) and Background Images (Gemini 3 Image).
 *   **FFmpeg Rendering:** Uses complex filter graphs (`drawtext`, `overlay`) to burn text onto the video at specific timestamps.
 
-```mermaid
-graph LR
-    API[API Trigger] --> Service[Slide Service]
-    Service <-->|JSON Structure| G_Logic[Gemini 3 Pro]
-    
-    Service -->|Backgrounds| G_Vis[Gemini 3 Image]
-    Service -->|Narration| G_Audio[Gemini 2.5 TTS]
-    
-    G_Vis & G_Audio -->|Raw Assets| FFmpeg
-    
-    FFmpeg -->|Draw Text & Mux| FFmpeg
-    FFmpeg -->|Stitch| Bucket[Video Bucket]
-```
+![Comics 2](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-6-2026-12_13_41-AM.png)
 
 ### 4. The Podcast Synth
 **Goal:** Convert a lesson into an engaging 2-person dialogue.
