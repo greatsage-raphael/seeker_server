@@ -73,7 +73,9 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 *   **Asset Generation:** Parallel generation of TTS Audio (Gemini 2.5) and Background Images (Gemini 3 Image).
 *   **FFmpeg Rendering:** Uses complex filter graphs (`drawtext`, `overlay`) to burn text onto the video at specific timestamps.
 
-![Comics 2](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-6-2026-12_13_41-AM.png)
+![Slides flow](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-6-2026-12_13_41-AM.png)
+
+[![Watch the demo](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/Screenshot%20from%202026-02-05%2020-58-24.png)](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/33d3435d-fe5e-450c-b71b-a3797944f5b8/slides_1769537093740.mp4)
 
 ### 4. The Podcast Synth
 **Goal:** Convert a lesson into an engaging 2-person dialogue.
@@ -82,14 +84,10 @@ The server operates as a bridge between the User's state (Supabase) and Google's
 *   **Scriptwriter:** Converts notes into a transcript between "Alex" (curious) and "Sam" (expert).
 *   **Audio Synth:** Uses **Gemini 2.5 Flash TTS** with `multiSpeakerVoiceConfig` to generate a single audio file with distinct voices.
 
-```mermaid
-graph LR
-    Request --> Writer[Gemini 2.0 Flash]
-    Writer -->|Dialogue Script| Synth[Audio Engine]
-    Synth <-->|Multi-Speaker Config| Speaker[Gemini 2.5 TTS]
-    Synth -->|PCM Data| Encoder[FFmpeg Encoder]
-    Encoder -->|MP3 File| DB[Database]
-```
+![The Podcast Flow](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-6-2026-12_26_50-AM.png)
+
+![The Podcast Synth](https://eifeyuvbxmsjjtbtbyuk.supabase.co/storage/v1/object/public/seeker/diagram-export-2-6-2026-12_21_13-AM.png)
+
 
 ---
 
